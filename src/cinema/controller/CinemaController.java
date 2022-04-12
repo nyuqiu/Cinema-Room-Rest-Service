@@ -5,21 +5,19 @@ import cinema.domain.Seat;
 import cinema.service.BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 
 @RestController
 public class CinemaController {
+    private final BookingService bookingService;
 
-    private BookingService bookingService;
-    Cinema cinema = new Cinema(9, 9);
-    Map<String, Seat> purchases = new ConcurrentHashMap<>();
+    public CinemaController(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
 
     @GetMapping("/seats")
     public Cinema getSeats() {
-        return cinema;
+        return bookingService.getSeats();
     }
 
     @PostMapping(value = "/purchase")

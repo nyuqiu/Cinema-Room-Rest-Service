@@ -12,8 +12,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
+
     Cinema cinema = new Cinema(9, 9);
     Map<String, Seat> purchases = new ConcurrentHashMap<>();
+
+    public Cinema getSeats() {
+        return cinema;
+    }
 
     public synchronized ResponseEntity<Object> purchaseTicket(Seat jsonSeat){
 
