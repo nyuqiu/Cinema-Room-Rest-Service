@@ -1,9 +1,9 @@
-package cinema;
+package cinema.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Cinema {
+public class Cinema {
     private int total_rows;
     private int total_columns;
     private List<Seat> available_seats;

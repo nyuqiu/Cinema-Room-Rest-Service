@@ -1,27 +1,23 @@
-package cinema;
+package cinema.service;
 
+import cinema.domain.Cinema;
+import cinema.domain.Purchase;
+import cinema.domain.Seat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-@RestController
-public class CinemaController {
+@Service
+public class BookingService {
     Cinema cinema = new Cinema(9, 9);
     Map<String, Seat> purchases = new ConcurrentHashMap<>();
 
-    @GetMapping("/seats")
-    public Cinema getSeats() {
-        return cinema;
-    }
+    public synchronized ResponseEntity<Object> purchaseTicket(Seat jsonSeat){
 
-    @PostMapping(value = "/purchase")
-    public synchronized ResponseEntity<Object> ticketPurchase(@RequestBody Seat jsonData) {
-
-        Seat seat = new Seat(jsonData.getRow(), jsonData.getColumn());
+        Seat seat = new Seat(jsonSeat.getRow(), jsonSeat.getColumn());
 
         if (cinema.getAvailable_seats().remove(seat)) {
             Purchase purchase = new Purchase(seat);
@@ -40,8 +36,7 @@ public class CinemaController {
         }
     }
 
-    @PostMapping(value = "/return")
-    public synchronized ResponseEntity<Object> ticketReturn(@RequestBody Map<String, String> tokenMap) {
+    public synchronized ResponseEntity<Object> ticketReturn(Map<String, String> tokenMap) {
         String token = tokenMap.get("token");
 
         if (purchases.containsKey(token)) {
@@ -54,8 +49,7 @@ public class CinemaController {
         }
     }
 
-    @PostMapping(value = "/stats")
-    public synchronized ResponseEntity<Object> showStats(@RequestParam Map<String, String> passwordMap) {
+    public synchronized ResponseEntity<Object> showStats(Map<String, String> passwordMap) {
         int isPasswordCorrect = passwordMap.entrySet().stream()
                 .filter(entry -> entry.getKey().equals("password"))
                 .filter(entry -> entry.getValue().equals("super_secret"))

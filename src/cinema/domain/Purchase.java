@@ -1,4 +1,4 @@
-package cinema;
+package cinema.domain;
 
 import java.util.UUID;
 

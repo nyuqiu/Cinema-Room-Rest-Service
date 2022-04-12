@@ -1,4 +1,4 @@
-package cinema;
+package cinema.domain;
 
 public class StatsLogic {
 

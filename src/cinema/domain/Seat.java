@@ -1,8 +1,8 @@
-package cinema;
+package cinema.domain;
 
 import java.util.Objects;
 
-class Seat {
+public class Seat {
     private int row;
     private int column;
     private int price;
